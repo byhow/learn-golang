@@ -166,4 +166,55 @@ func main() {
 	fmt.Printf("%b\n", roles)
 	fmt.Printf("Is Admin? %v\n", isAdmin & roles == isAdmin) // bit mask 
 	
+
+	// arrays
+	grades := [3]int{97, 98, 99} // [size]type{initializer}
+	// grades := [...]int{9,10,11}
+	var students [3]string
+	students[0] = "Lisa"
+	fmt.Printf("Students: %v\n", students)
+	// continuous addrs
+	fmt.Printf("Grades: %v\n", grades)
+	// len(students) - got the size??
+
+	// Identity matrix
+	var im [3][3]int
+	im[0] = [3]int {1, 0, 0}
+	im[1] = [3]int {0, 1, 0}
+	im[2] = [3]int {0, 0, 1}
+	fmt.Println(im)
+
+	// copying arrays are value copy
+	a4 := [...]int{1,2,3}
+	b2 := a4
+	b2[2] = 5
+	fmt.Println(a4)
+	fmt.Println(b2)
+
+	// if do pointers on addr, then its pointing 
+	// e.g. b := &a
+
+	a5 := []int{1, 2, 3} // slice: a projection to the underlying array
+	fmt.Println(cap(a5)) // capacity function
+	
+	// literal slice
+	// a6 := a5[:] // all elem
+	// a6 = a5[1:] // from 2nd to end
+	
+	a6 := make([]int, 3)
+	fmt.Println(a6)
+	// get all zero values
+	a6 = append(a6, 1, 2, 3, 4, 5, 6)
+	fmt.Println(a6)
+	// capacity will grow 
+
+	// concatenation between slices has to be same type
+	// spread operater ...
+	a6 = append(a6, []int{2, 3, 4, 5}...)
+
+	// stack operation
+	// shift operation
+	
+	
+
 }
