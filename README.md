@@ -1,4 +1,4 @@
-## Golang
+# Golang
 
 Reason why:
 * Strong and statically typed (e.g. Java)
@@ -29,7 +29,7 @@ func main() {
 }
 ```
 
-#### Variables
+### Variables
 * Variable declaration
   * var foo int
   * var foo int = 42
@@ -51,7 +51,7 @@ func main() {
   * Use strconv package for strings (or got unicode conversion)
   
 
-#### Primitive Types
+### Primitive Types
 * Boolean 
   * Values are true or false
   * Not an alias for other types (e.g. int) 
@@ -99,3 +99,27 @@ func main() {
     * Alias for int32
     * Special methods normally required to process
       * e.g. strings.Reader#ReadRune
+
+
+### Constants
+* Immutable, but can be shadowed
+* Replaced by the compiler at compile time
+  * Value must be calculable at compile time
+* Naming convention
+  * Named like variables
+    * PascalCase for exported constants
+    * camelCase for internal constants
+* Typed constants
+  * Works like immutable variables
+  * Can interoperate only with same type
+* Untyped constants
+  * Can interoperate with similar type
+* Enumerated constants
+  * Special symbol `iota` allows related constants to be created easily
+  * `iota` at 0 in each const block and increments by one
+  * Watch out of constant values that match zero values for variables
+* Enumeration expressions
+  * Operations that can be determined at compile time are allowed
+    * Arithmetic
+    * Bitwise operations
+    * Bitshifting

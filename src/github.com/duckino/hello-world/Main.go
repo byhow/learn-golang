@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	// "math"
 	"strconv"
 )
 // when at this level, cannot infer type
@@ -17,6 +18,53 @@ var (
 
 var (
 	counter int = 0
+)
+
+
+const (
+	a = iota
+	b 
+	c
+)
+// it will then enumerate automatically
+
+const (
+	a4 = iota
+)
+
+// iota usecase
+const (
+	errorSpecialist = iota
+	// _ = iota
+	// throw that away, like what it is in JS
+	catSpecialist
+	dogSpecialist
+	snakeSpecialist
+	// automatically enumerate on the fly
+)
+
+const (
+	_ = iota
+	KB = 1 << (10 * iota)
+	MB
+	GB
+	TB
+	PB
+	EB
+	ZB
+	YB
+)
+
+const (
+	isAdmin = 1 << iota
+	isHeadquarters
+	canSeeFinancials
+
+	canSeeAfrica
+	canSeeAsia
+	canSeeEurope
+	canSeeNorthAmerica
+	canSeeSouthAmerica
 )
 
 func main() {
@@ -92,4 +140,30 @@ func main() {
 	var r  rune = 'a' // use single quote
 	fmt.Printf("%v, %T\n", r, r) // will get int32 type, just type alias for int32
 	// we need this type for different apis, ReadRune vs ReadByte
+
+
+	// Constants
+	const myConst float64 = 1.57 // internal constant
+	// would not allow constant to be calculated at compile time
+	// const myConst float64 = math.Sin(1.57) // internal constant
+	fmt.Printf("%v, %T\n", myConst, myConst)
+	// has to be assignable at compile time
+
+	const a1 = 42
+	var b1 int16 = 27
+	fmt.Printf("%v, %T\n", a1 + b1, a1 + b1) // this int + int16 works because the numbers add up as 42 + b ish
+
+	// enumerated constant
+	const a2 = iota
+
+	// iota example storage
+	fileSize := 4000000000.
+	fmt.Printf("%2fGB\n", fileSize/GB)
+
+	// iota admin bit operation (genius)
+	// every flag is on their specific flag
+	var roles byte = isAdmin | canSeeFinancials | canSeeEurope
+	fmt.Printf("%b\n", roles)
+	fmt.Printf("Is Admin? %v\n", isAdmin & roles == isAdmin) // bit mask 
+	
 }
