@@ -154,3 +154,19 @@ func main() {
   * `append` function to add elements to slice
     * May cause expensive copy operation if underlying array is too small
   * Copies refer to same underlying array
+
+### Map and Struct
+* Map (reference type)
+  * Collections of value types that are accessed via keys
+  * Created via literals or via make function
+  * Members accessed via `[key]` syntax
+    * `myMap["key"] = "value"`
+  * Check for presence with "value, ok" form of result
+  * Multiple assignments refer to same underlying data
+* Struct
+  * Collections of disparate data types that describe a single concept
+  * Keyed by named fields
+  * Normally created as types, but anonymous structs are allowed
+  * Structs are value types
+  * No inheritance, but can use composition via embedding
+  * Tags can be added to struct field to describe field

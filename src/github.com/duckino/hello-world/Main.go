@@ -4,6 +4,7 @@ import (
 	"fmt"
 	// "math"
 	"strconv"
+	"reflect"
 )
 // when at this level, cannot infer type
 var (
@@ -66,6 +67,26 @@ const (
 	canSeeNorthAmerica
 	canSeeSouthAmerica
 )
+
+
+type Doctor struct {
+	number int
+	actorName string
+	companions []string
+}
+
+// composition or embedded struct
+type Animal struct {
+	Name string `required max: "100"`
+	Origin string
+
+}
+
+type Bird struct {
+	Animal
+	Speed float32
+	CanFly bool
+}
 
 func main() {
 	// var i int = 42
@@ -215,6 +236,59 @@ func main() {
 	// stack operation
 	// shift operation
 	
-	
+	// Map 
+	// the key has to be tested for equality
+	// array is a valid key type but a slice is not
+	ascii := map[string]int {
+		"A": 65, 
+		"B": 66,
+	}
 
+	// or use the make function
+	// ascii := make(map[int]int)
+	fmt.Println(ascii)
+
+	ascii["C"] = 67
+	delete(ascii, "C")
+	// when requesting non-exist key, it will return 0, unless
+	pop, ok := ascii["D"]
+	fmt.Println(pop, ok) // ok is false if the key is not in the map
+	// len(ascii) to find out the length 
+
+	sp := ascii
+	// manipulation affects other instance
+	delete(sp, "A")
+	fmt.Println(sp)
+	fmt.Println(ascii)
+
+	// Struct
+	aDoctor := Doctor {
+		number: 3,
+		actorName: "John Doe",
+		companions: []string {
+			"Other",
+			"People",
+		},
+	}
+	fmt.Println(aDoctor.companions[1])
+	// struct does not need to have the same data
+	// a type of collection
+	// always use this syntax instead of the positional syntax unless 
+	// it is a short life-span struct
+
+	// anonymous struct
+	// those are independent datasets. copy will not affect the others
+	// unless address operator is used
+	bDoctor := struct{name string} {name: "John Doe"}
+	fmt.Println(bDoctor)
+
+	// composition instead of inheritance
+	// just a syntactic sugar
+	b4 := Bird{}
+	b4.Name = "bird1"
+	fmt.Println(b4)
+	
+	t := reflect.TypeOf(Animal{})
+	field, _ := t.FieldByName("Name")
+	fmt.Println(field.Tag) // string of tag inside struct
 }
