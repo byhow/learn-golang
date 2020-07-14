@@ -170,3 +170,25 @@ func main() {
   * Structs are value types
   * No inheritance, but can use composition via embedding
   * Tags can be added to struct field to describe field
+
+### Control Flows
+* If statements
+  * Initializer
+  * Comparison operators
+  * Logical operators
+  * Short circuiting
+  * If - else statements
+  * If - else if statements
+  * Equality and floats (divide them and see if it is in a range)
+* Switch statements
+  * Switching on a tag
+  * Cases with multiple tests
+  * Initializers
+  * Switch with no tag
+  * Fallthrough
+  * Type switches
+  * Breaking out early
+  
+
+
+

@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	// "math"
+	"math"
 	"strconv"
 	"reflect"
 )
@@ -291,4 +291,59 @@ func main() {
 	t := reflect.TypeOf(Animal{})
 	field, _ := t.FieldByName("Name")
 	fmt.Println(field.Tag) // string of tag inside struct
+
+
+	// Control Flow
+	if true {
+		fmt.Println("The test is true")
+	}
+
+	// initializer block
+	if pop, ok := ascii["E"]; ok {
+		fmt.Println(pop)
+	}
+
+	// &&, ||, and or
+	myNum := 0.123
+	if math.Abs(myNum / math.Pow(math.Sqrt(myNum), 2) - 1) < 0.001 {
+		fmt.Println("These are the same")
+	} else {
+		fmt.Println("These are different")
+	}
+
+
+	i := 10
+	switch {
+	case i < 1:
+		fmt.Println("This is 1")
+	case i < 2:
+		fmt.Println("This is 2")
+		break // implied
+	case i < 3:
+		fmt.Println("This is 3")
+		fallthrough // normal cases in C/C++
+	case i < 10:
+		fmt.Println("This is less than 10")
+	default: 
+		fmt.Println("This is default")
+	}
+
+	// type switch statement
+	var i1 interface{} = 1.0
+	switch i1.(type) {
+	case int:
+		fmt.Println("i is an int")
+		break
+		fmt.Println("needless")
+	case float64:
+		fmt.Println("i is float 64")
+	case string:
+		fmt.Println("i is a string")
+	case [3]int:
+		fmt.Println("i is a array of int of size 3")
+	default:
+		fmt.Println("i is an another type")
+	}
+
+
 }
