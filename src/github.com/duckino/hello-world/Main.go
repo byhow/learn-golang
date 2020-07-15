@@ -434,6 +434,33 @@ func main() {
 	// in order to handle it 
 	panicker() 
 	fmt.Println("end")
+
+	// Pointers
+	// copy value that the variable points to
+	var aval int = 42
+	var bpointer *int = &aval // declere pointer type
+	fmt.Println(aval, *bpointer) // dereferencing
+
+	// pointer arithmetic is not supported
+	// unless you use the "unsafe" package
+
+	// new function
+	var ms *myStruct
+	ms = &myStruct{foo: 24}
+	(*ms).foo = 29
+	// or just no paren
+	ms.foo = 89
+	ms = new(myStruct)
+	fmt.Println(ms)
+		
+	// if not initialize, then it becomes nil
+	// array is copy by value, but slice is not
+	// difference is that one is [] the other is [3]
+	// also map. It will point to the same object
+}
+
+type myStruct struct {
+	foo int
 }
 
 func panicker() {

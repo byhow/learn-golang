@@ -223,6 +223,23 @@ func main() {
   * Used to recover from panics
   * Only useful in deferred functions
   * Current function will not attempt to continue, but higher functions in call stack will
-  * 
 
 
+### Pointers
+* Create pointers
+  * *int - a pointer to an integer
+  * Use the addressof operator (&) to get address of variable
+* Dereferencing pointers
+  * Dereference pointers by preceding with an asterisk(*)
+  * Complex types (e.g. struct) are automatically dereferenced
+* Create pointers to objects
+  * Can use the addressof operator (&) if value types already exists
+    * ms := myStruct{foo: 42}
+    * p := &ms
+  * Use addressof operator before initializer
+    * &myStruct {foo: 42}
+  * Use the new keyword
+    * Can't initialize fields at the same time
+* Types with internal pointers
+  * All assignment operations in Go are copy operations
+  * Slices and maps contain internal pointers, so copies point to same underlying data
