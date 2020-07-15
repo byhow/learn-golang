@@ -5,6 +5,9 @@ import (
 	"math"
 	"strconv"
 	"reflect"
+	"io/ioutil"
+	"log"
+	"net/http"
 )
 // when at this level, cannot infer type
 var (
@@ -345,5 +348,104 @@ func main() {
 		fmt.Println("i is an another type")
 	}
 
+	for i := 0; i < 5; i++ {
+		fmt.Println(i)
+	}
 
+	// no comma operators in Go
+	for i, j := 0, 0; i < 5; i, j = i+1, j+1 {
+		// increment operation i++ is not an expression
+		fmt.Println(i, j)
+	}
+
+	// infinite loop
+
+	ll := 0
+	for {
+		fmt.Println(1)
+		ll++
+		if ll==5 {
+			break
+		}
+	}
+
+	// for range loop
+	s11 := []int{1, 2, 3}
+	for k, v := range s11{
+		fmt.Println(k, v)
+	}
+	
+	// defer
+	fmt.Println("Start")
+	// when the function exits, it will look for defer
+	// function that it left to call, and execute;
+	// when it hits multiple defer functions, it executes 
+	// in LIFO, last deferred, first to execute
+	defer fmt.Println("Middle")
+	fmt.Println("End")
+
+	// common use case for defer
+	// open and close 
+	res, err := http.Get("http://google.com/robots.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+	// it is convenient, but when requesting a large chunk of body
+	// not closing the resource may harm performance. Rather not using
+	// this close can be referred in other function calls
+	defer res.Body.Close()
+	robots, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%s", robots)
+
+	// defer will take the argument at the time 
+	// it is used, so this defer will actually print out 
+	// "start"
+	a9 := "start"
+	defer fmt.Println(a9)
+	a9 = "end"
+
+	// Panic
+	// no exception in Go
+	// usually jus throw an error value
+	// unless the program cannot continue
+
+	// a7, b7 := 1, 0
+	// ans := a7 / b7
+	// fmt.Println(ans)
+
+	// panic("somthing bad happened")
+
+	// panic happens after defer happens
+	a9 = "start"
+	defer fmt.Println(a9)
+	// panic("something bad happened")
+	defer func() {
+		// recover() will return nil is it is not panic
+		// return the error statement if it is 
+		if err:= recover(); err!=nil {
+			log.Println("Err", err)
+		}
+	}() // the paren is invoking the function
+	// panic("somthing bad happened")
+	// you need to panic() to pass to higher call stack
+	// in order to handle it 
+	panicker() 
+	fmt.Println("end")
+}
+
+func panicker() {
+	fmt.Println("start")
+	defer func() {
+		if err := recover(); err != nil {
+			log.Println("error:", err)
+			// unless you re-panic the err
+			panic(err)
+		}
+	}()
+	// this is handled, but up in the call stack
+	// it will continue
+	panic("something bad happened")
 }
