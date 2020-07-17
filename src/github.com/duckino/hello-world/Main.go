@@ -9,7 +9,13 @@ import (
 	"log"
 	"net/http"
 	"bytes"
+	// "time"
+	"sync"
+	"runtime"
 )
+
+var wg = sync.WaitGroup{}
+var m = sync.RWMutex{}
 // when at this level, cannot infer type
 var (
 	j int = 99
@@ -464,6 +470,22 @@ func main() {
 	// implicit implementation
 	var w1 Writer = ConsoleWriter{}
 	w1.Write([]byte("Hello world"))
+
+	// goroutine 
+	// green thread instead of OS thread
+	// usually thread pooling
+	// however, this is abstraction of thread in maps.
+	// it has a scheduler in the runtime that maps those
+	// goroutines onto the main system thread 4 periods of time
+	// and assign processing time on those threads
+	go sayHello()
+	// time.Sleep(100* time.Millisecond)
+	wg.Wait()
+	// this will not print out, but anonymous functions will
+	// because of closure
+
+	fmt.Printf("Threads: %v\n", runtime.GOMAXPROCS(-1))
+	
 }
 
 type myStruct struct {
@@ -603,4 +625,9 @@ func (cw ConsoleWriter) Write(data []byte) (int, error) {
 	n, err := fmt.Println(string(data))
 	return n, err
 
+}
+
+func sayHello() {
+	fmt.Println("Hello")
+	wg.Done()
 }

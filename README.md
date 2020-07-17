@@ -349,3 +349,24 @@ switch i.(type) {
 
 * Best Practices
   * Don't export interfaces for types that will be consumed
+
+
+### Goroutine
+* Best practices
+  * Don't create goroutine in libraries
+    * Let consumer control concurrency
+  * When creating a goroutine, know how it will end
+    * Avoids subtle memory leaks 
+  * Check for race conditions at compile time
+    * `go run -race <args>`
+    * recommended to run before prod
+* Creating goroutine
+  * Use `go` keyword in front of function call
+  * When using anonymous functions, pass data as local variables
+* Synchronization
+  * Use sync.waitGroup
+  * Use sync.Mutex and sync.RWMutex to protect data access
+* Parallelism
+  * By default, Go will use CPU threads equal to available cores
+  * Change with runtime.GOMAXPROCS
+  * More threads can increase performance, but too many can slow it down
