@@ -463,6 +463,80 @@ type myStruct struct {
 	foo int
 }
 
+// pass by values
+func sayMsg(msg string, idx int) {
+	fmt.Println(msg, idx)
+}
+
+func sayMsgStringOnly(msg, idx string) {
+	fmt.Println(msg, idx)
+}
+
+// if it is a large data structure, passing pointers
+// avoid copying values all the time
+func sayMsgStringPointerOnly(msg, idx *string) {
+	fmt.Println(*msg, *idx)
+}
+
+func sum(val ...int) *int {
+	fmt.Println(val)
+	result := 0
+	for _, v := range val {
+		result += v
+	}
+	fmt.Println(result)
+	// return local variable as a pointer
+	return &result
+}
+
+func sumNamed(val ...int) (result int) {
+	fmt.Println(val)
+	for _, v := range val {
+		result += v
+	}
+	fmt.Println(result)
+	// return local variable as a pointer
+	return
+}
+
+func divide(a, b float64) (float64, error) {
+	if b == 0.0 {
+		return 0.0, fmt.Errorf("Cannot divide by zero")
+	} 
+	return a / b, nil
+}
+
+func anonymousFunc() {
+	f := func() {
+		fmt.Println("Hello Go")
+	}
+	f()
+}
+
+// methods
+type greeter struct {
+	greeting string
+	name string
+}
+
+// operating on a copy of the object
+func (g greeter) greet() {
+	fmt.Println(g.greeting, g.name)
+}
+
+func (g *greeter) greetPointer() {
+	fmt.Println(g.greeting, g.name)
+}
+
+func test() {
+	g := greeter {
+		greeting: "bruh",
+		name: "Go",
+	}
+	g.greet()
+}
+
+
 func panicker() {
 	fmt.Println("start")
 	defer func() {
