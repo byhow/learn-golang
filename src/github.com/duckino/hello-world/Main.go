@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"bytes"
 )
 // when at this level, cannot infer type
 var (
@@ -457,6 +458,12 @@ func main() {
 	// array is copy by value, but slice is not
 	// difference is that one is [] the other is [3]
 	// also map. It will point to the same object
+
+
+	// Interface
+	// implicit implementation
+	var w1 Writer = ConsoleWriter{}
+	w1.Write([]byte("Hello world"))
 }
 
 type myStruct struct {
@@ -549,4 +556,51 @@ func panicker() {
 	// this is handled, but up in the call stack
 	// it will continue
 	panic("something bad happened")
+}
+
+type Writer interface {
+	Write([]byte) (int, error)
+}
+
+type Closer interface {
+	Closer() error
+}
+
+type WriterCloser interface {
+	Writer
+	Closer
+}
+
+type BufferedWriterCloser struct {
+	buffer *bytes.Buffer
+}
+
+
+func (bwc *BufferedWriterCloser) Write (data []byte) (int, error) {
+	n, err := bwc.buffer.Write(data)
+	if err != nil {
+		return 0, err
+	}
+	v := make([]byte, 8)
+	for bwc.buffer.Len() > 8 {
+		_, err := bwc.buffer.Read(v)
+		if err != nil {
+			return 0, err
+		}
+		_, err = fmt.Println(string(v))
+		if err != nil {
+			return 0, err
+		}
+	}
+	return n, nil
+}
+
+type ConsoleWriter struct {
+
+}
+
+func (cw ConsoleWriter) Write(data []byte) (int, error) {
+	n, err := fmt.Println(string(data))
+	return n, err
+
 }
