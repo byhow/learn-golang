@@ -485,6 +485,30 @@ func main() {
 	// because of closure
 
 	fmt.Printf("Threads: %v\n", runtime.GOMAXPROCS(-1))
+
+	// Channels
+	ch := make(chan int, 50) // buffered channel
+	// if they are in different frequency
+	wg.Add(2)
+	// receiver only 
+	go func(ch <- chan int) {
+		for i:= range ch {
+			fmt.Println(i)
+		}
+		i := <- ch
+		fmt.Println(i)
+		wg.Done()
+	} (ch) 
+	// sender only
+	go func(ch chan <- int) {
+		ch <- 42
+		close(ch) // to notify that channel has reached the end
+		// technically channel can hold infinite number of items
+		ch <- 27
+		close(ch)
+		wg.Done()
+	} (ch)
+	wg.Wait()
 	
 }
 
